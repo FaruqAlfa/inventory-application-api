@@ -18,30 +18,26 @@ class UserController extends Controller
         ]);
     }
 
-    public function updateProfile(Request $request)
+    public function updateProfile(Request $request, $id)
     {
-        $user = Auth::user();
-
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'nullable|string|min:8',
             'usia' => 'required|integer',
         ]);
 
-        // Perbarui informasi pengguna
-        $user->name = $request->name;
-        $user->email = $request->email;
+        $user = User::findOrFail($id);
 
-        // Perbarui password jika diberikan
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
 
-        $user->usia = $request->usia;
-
-        // Simpan perubahan
-        $user->save();
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'usia' => $request->usia,
+        ]);
 
         return response()->json([
             'status' => true,
