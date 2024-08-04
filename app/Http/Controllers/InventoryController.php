@@ -33,16 +33,26 @@ class InventoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'stock' => 'required',
-            'price' => 'required',
+            'description' => 'required',
+            'quantity' => 'required|integer',
+            'price' => 'required|numeric',
         ]);
-
-        $inventory = Inventory::create($request->all());
-
+    
+        
+        $inventory = Inventory::where('name', $request->name)->first();
+    
+        if ($inventory) {
+            $inventory->increment('quantity', $request->quantity);
+            $message = 'Stok barang berhasil ditambahkan';
+        } else {
+            $inventory = Inventory::create($request->all());
+            $message = 'Inventaris berhasil ditambahkan';
+        }
+    
         return response()->json([
-            'status' => 'true',
+            'status' => true,
             'data' => ['id' => $inventory->id],
-            'message' => 'Inventaris berhasil ditambahkan'
+            'message' => $message
         ]);
     }
 
