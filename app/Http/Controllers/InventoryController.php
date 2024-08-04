@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Inventory;
+use Illuminate\Support\Facades\Auth;
 
 class InventoryController extends Controller
 {
@@ -43,7 +44,8 @@ class InventoryController extends Controller
     
         if ($inventory) {
             $inventory->increment('quantity', $request->quantity);
-            $message = 'Stok barang berhasil ditambahkan';
+            $inventory->increment('price', $request->price);
+            $message = 'Stok dan Harga barang berhasil ditambahkan';
         } else {
             $inventory = Inventory::create($request->all());
             $message = 'Inventaris berhasil ditambahkan';
@@ -60,16 +62,21 @@ class InventoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'stock' => 'required',
-            'price' => 'required',
+            'description' => 'required',
+            'quantity' => 'required|integer',
+            'price' => 'required|numeric',
         ]);
 
         $inventory = Inventory::findOrFail($id);
         $inventory->update($request->all());
+        $userId = Auth::user()->id;
 
         return response()->json([
             'status' => 'true',
-            'data' => ['id' => $inventory->id],
+            'data' => [
+                'id' => $inventory->id,
+                'updated_by' => $userId
+            ],
             'message' => 'Inventaris berhasil diperbarui'
         ]);
     }
