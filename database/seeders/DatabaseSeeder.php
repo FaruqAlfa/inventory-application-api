@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'password',
-            'usia' => 20
+            'age' => 20
         ]);
     }
 }
