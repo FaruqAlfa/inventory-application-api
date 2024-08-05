@@ -14,7 +14,7 @@ class UserController extends Controller
         return response()->json([
             'status' => true,
             'data' => Auth::user(),
-            'message' => 'Data profil berhasil diambil'
+            'message' => 'Profile data successfully retrieved'
         ]);
     }
 
@@ -23,7 +23,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'nullable|string|min:8',
+            'password' => 'nullable|string',
             'age' => 'required|integer',
             'gender' => 'required|string',
             'phone' => 'required|string',
@@ -46,7 +46,7 @@ class UserController extends Controller
         return response()->json([
             'status' => true,
             'data' => ['id' => $user->id],
-            'message' => 'Profil berhasil diperbarui'
+            'message' => 'Profile updated successfully'
         ]);
     }
 }

@@ -15,7 +15,7 @@ class InventoryController extends Controller
         return response()->json([
             'status' => true,
             'data' => $inventory,
-            'message' => 'Data inventaris berhasil diambil'
+            'message' => 'Inventory data successfully retrieved by id'
         ]);
     }
     
@@ -26,7 +26,7 @@ class InventoryController extends Controller
         return response()->json([
             'status' => true,
             'data' => $inventories,
-            'message' => 'Data inventaris berhasil diambil'
+            'message' => 'Inventory data successfully retrieved'
         ]);
     }
 
@@ -45,10 +45,10 @@ class InventoryController extends Controller
         if ($inventory) {
             $inventory->increment('quantity', $request->quantity);
             $inventory->increment('price', $request->price);
-            $message = 'Stok dan Harga barang berhasil ditambahkan';
+            $message = 'Stock and Price of the item successfully added';
         } else {
             $inventory = Inventory::create($request->all());
-            $message = 'Inventaris berhasil ditambahkan';
+            $message = 'Inventory successfully added';
         }
     
         return response()->json([
@@ -77,7 +77,7 @@ class InventoryController extends Controller
                 'id' => $inventory->id,
                 'updated_by' => $userId
             ],
-            'message' => 'Inventaris berhasil diperbarui'
+            'message' => 'Inventory updated successfully'
         ]);
     }
 
@@ -89,7 +89,7 @@ class InventoryController extends Controller
         return response()->json([
             'status' => 'true',
             'data' => null,
-            'message' => 'Inventaris berhasil dihapus'
+            'message' => 'Inventory deleted successfully'
         ]);
     }
 
