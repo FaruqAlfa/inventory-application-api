@@ -10,9 +10,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/profile', [UserController::class, 'getProfile']);
     Route::put('/updateProfile/{id}', [UserController::class, 'updateProfile']);
     
+    Route::get('/inventory', [InventoryController::class, 'index']);
+    Route::get('/showInventoryById/{id}', [InventoryController::class, 'show']);
     Route::post('/addInventory', [InventoryController::class, 'store']);
     Route::put('/updateInventory/{id}', [InventoryController::class, 'update']);
     Route::delete('/deleteInventory/{id}', [InventoryController::class, 'destroy']);
-    Route::get('/inventory', [InventoryController::class, 'index']);
-    Route::get('/showInventoryById/{id}', [InventoryController::class, 'show']);
 });
