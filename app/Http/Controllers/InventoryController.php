@@ -10,6 +10,7 @@ class InventoryController extends Controller
 {
     public function show($id)
     {
+        // search inventory by id
         $inventory = Inventory::findOrFail($id);
 
         return response()->json([
@@ -32,6 +33,7 @@ class InventoryController extends Controller
 
     public function store(Request $request)
     {
+        // validation request
         $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -39,13 +41,15 @@ class InventoryController extends Controller
             'price' => 'required|numeric',
         ]);
     
-        
+        // search inventory by name
         $inventory = Inventory::where('name', $request->name)->first();
     
+        // if inventory found, increment quantity and price
         if ($inventory) {
             $inventory->increment('quantity', $request->quantity);
             $inventory->increment('price', $request->price);
             $message = 'Stock and Price of the item successfully added';
+        // else create new inventory
         } else {
             $inventory = Inventory::create($request->all());
             $message = 'Inventory successfully added';
@@ -60,6 +64,7 @@ class InventoryController extends Controller
 
     public function update(Request $request, $id)
     {
+        // validation request
         $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -67,6 +72,7 @@ class InventoryController extends Controller
             'price' => 'required|numeric',
         ]);
 
+        // update inventory data by id
         $inventory = Inventory::findOrFail($id);
         $inventory->update($request->all());
         $userId = Auth::user()->id;
@@ -74,7 +80,7 @@ class InventoryController extends Controller
         return response()->json([
             'status' => 'true',
             'data' => [
-                'id' => $inventory->id,
+                'id_inventory' => $inventory->id,
                 'updated_by' => $userId
             ],
             'message' => 'Inventory updated successfully'
@@ -83,6 +89,7 @@ class InventoryController extends Controller
 
     public function destroy($id)
     {
+        // delete inventory by id
         $inventory = Inventory::findOrFail($id);
         $inventory->delete();
 

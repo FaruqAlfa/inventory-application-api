@@ -20,6 +20,7 @@ class UserController extends Controller
 
     public function updateProfile(Request $request, $id)
     {
+        //validation 
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
@@ -29,15 +30,19 @@ class UserController extends Controller
             'phone' => 'required|string',
         ]);
 
+        //find user by id
         $user = User::findOrFail($id);
 
+        //update user data
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
 
+        //update user data
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
+            'password' => $request->password,
             'age' => $request->age,
             'gender' => $request->gender,
             'phone' => $request->phone
