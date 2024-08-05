@@ -24,7 +24,9 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'nullable|string|min:8',
-            'usia' => 'required|integer',
+            'age' => 'required|integer',
+            'gender' => 'required|string',
+            'phone' => 'required|string',
         ]);
 
         $user = User::findOrFail($id);
