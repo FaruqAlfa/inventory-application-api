@@ -24,8 +24,10 @@ class InventoryController extends Controller
     {
         $inventories = Inventory::all();
 
+
         return response()->json([
             'status' => true,
+            'userId' => Auth::user(),
             'data' => $inventories,
             'message' => 'Inventory data successfully retrieved'
         ]);
