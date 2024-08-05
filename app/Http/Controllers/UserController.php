@@ -42,7 +42,6 @@ class UserController extends Controller
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password,
             'age' => $request->age,
             'gender' => $request->gender,
             'phone' => $request->phone
